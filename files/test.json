@@ -1,0 +1,15 @@
+{
+    "payment": {
+        "form_payment" : "card",
+        "value": 10.98,
+        "currency": "BRL",
+        "description": "Created payment"
+    },
+    "card": {
+        "numero": 12345678901,
+        "bandeira": "visa",
+        "ano_de_expiracao": 2016,
+        "mes_de_expiracao": 12,
+        "cvv": 123
+    }
+}
