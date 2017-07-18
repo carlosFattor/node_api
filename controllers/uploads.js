@@ -1,9 +1,9 @@
-var fs = require('fs');
+const fs = require('fs');
 
 module.exports = function(app){
 
     app.post('/upload/images', function(req, resp){
-        var filename = req.headers.filename;
+        const filename = req.headers.filename;
         console.log("Nome da imagem ===> "+ filename);
         req.pipe(fs.createWriteStream('files/'+ filename + new Date().getMilliseconds().toString()))
             .on('finish', function(){

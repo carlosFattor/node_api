@@ -1,13 +1,13 @@
-var express = require('express');
-var consign = require('consign');
-var bodyParser = require('body-parser');
-var express_validator = require('express-validator');
-var morgan = require('morgan');
-var logger = require('../services/logger.js');
-var cors = require('cors')
+const express = require('express');
+const consign = require('consign');
+const bodyParser = require('body-parser');
+const express_validator = require('express-validator');
+const morgan = require('morgan');
+const logger = require('../services/logger.js');
+const cors = require('cors')
 
 module.exports = function(){
-    var app = express();
+    const app = express();
 
     //log com morgan
     app.use(morgan('common', {

@@ -1,8 +1,8 @@
-var cluster = require('cluster');
-var os = require('os');
+const cluster = require('cluster');
+const os = require('os');
 
 console.log('executando thread');
-var cpus = os.cpus();
+const cpus = os.cpus();
 //console.log(cpus);
 if(cluster.isMaster){
     console.log('thread master');

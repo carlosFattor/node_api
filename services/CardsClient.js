@@ -1,4 +1,4 @@
-var restfy = require('restify');
+const restfy = require('restify');
 
 function CardsClient(){
     this._client = restfy.createJSONClient({

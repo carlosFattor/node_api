@@ -1,9 +1,7 @@
-module.exports = function(app){
+const correios = function(app) {
     app.post('/correios/calculo-prazo', function(req, resp){
-        var dadosEntrega = req.body;
-        console.log("teste");
-        var correiosService = new app.services.correiosSOAPClient();
-        console.log("teste");
+        const dadosEntrega = req.body;
+        const correiosService = new app.services.correiosSOAPClient();
         correiosService.calcPrazo(dadosEntrega, function(error, result){
             if(error){
                 resp.status(500).end(error);
@@ -15,3 +13,5 @@ module.exports = function(app){
         })
     })
 }
+
+module.exports = correios

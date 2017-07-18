@@ -1,4 +1,4 @@
-var logger = require('../services/logger.js');
+const logger = require('../services/logger.js');
 
 const PAY_CREATED = "CREATED";
 const PAY_CONFIRMED = "CONFIRMED";
@@ -11,17 +11,17 @@ module.exports = function(app){
     });
 
     app.get('/payments/pay/:id', function(req, resp){
-        var id = req.params.id;
+        const id = req.params.id;
 
-        var memcachedClient = app.services.MemcachedClient();
+        const memcachedClient = app.services.MemcachedClient();
 
         memcachedClient.get('pay-'+id, function(error, value){
             if(error || !value){
                 console.log('MISS - key not found '+ JSON.stringify(error));
                 logger.info('MISS - key not found '+ JSON.stringify(error));
 
-                var connection = app.persistence.connectionFactory();
-                var paymentDao = new app.persistence.PaymentDao(connection);
+                const connection = app.persistence.connectionFactory();
+                const paymentDao = new app.persistence.PaymentDao(connection);
 
                 paymentDao.findById(id, function(error, response){
                     if(error){
@@ -46,14 +46,14 @@ module.exports = function(app){
 
     app.delete('/payments/pay/:id', function(req, resp){
         
-        var pay = {};
-        var id = req.params.id;
+        const pay = {};
+        const id = req.params.id;
         
         pay.id = id;
         pay.status = PAY_CANCELED;
 
-        var connection = app.persistence.connectionFactory();
-        var paymentDao = new app.persistence.PaymentDao(connection);
+        const connection = app.persistence.connectionFactory();
+        const paymentDao = new app.persistence.PaymentDao(connection);
 
         paymentDao.update(pay, function(error, result){
             if(error){
@@ -65,14 +65,14 @@ module.exports = function(app){
     });
 
     app.put('/payments/pay/:id', function(req, resp){
-        var pay = {};
-        var id = req.params.id;
+        const pay = {};
+        const id = req.params.id;
         
         pay.id = id;
         pay.status = PAY_CONFIRMED;
 
-        var connection = app.persistence.connectionFactory();
-        var paymentDao = new app.persistence.PaymentDao(connection);
+        const connection = app.persistence.connectionFactory();
+        const paymentDao = new app.persistence.PaymentDao(connection);
 
         paymentDao.update(pay, function(error, result){
             if(error){
@@ -87,18 +87,18 @@ module.exports = function(app){
         req.assert('payment.form_payment', 'form payment is required').notEmpty();
         req.assert('payment.value', 'value is required').notEmpty().isFloat();
 
-        var errors = req.validationErrors();
+        const errors = req.validationErrors();
         if(errors){
             console.log(errors);
             resp.status(400).send(errors);
             return;
         }
-        var pay = req.body['payment'];
+        const pay = req.body['payment'];
         pay.createdAt = new Date;
         pay.status = PAY_CREATED;
 
-        var connection = app.persistence.connectionFactory();
-        var paymentDao = new app.persistence.PaymentDao(connection);
+        const connection = app.persistence.connectionFactory();
+        const paymentDao = new app.persistence.PaymentDao(connection);
 
         paymentDao.save(pay, function(error, result){
             if(error){
@@ -107,8 +107,8 @@ module.exports = function(app){
             }
 
             if(pay.form_payment == 'card'){
-                var card = req.body['card'];
-                var clientCard = new app.services.CardsClient();
+                const card = req.body['card'];
+                const clientCard = new app.services.CardsClient();
                 clientCard.authorization(card, function(exception, request, response, _return){
                     if(exception){
                         console.log(exception);
@@ -125,7 +125,7 @@ module.exports = function(app){
                 pay.id = result.insertId;
                 resp.location('/payments/pay/' + pay.id);
                 
-                var response = {
+                const response = {
                     payment_info : pay,
                     links: [
                         {
@@ -149,7 +149,7 @@ module.exports = function(app){
 
     function setOnClient(id, values){
         console.log("na funcao<====")
-        var cache = app.services.MemcachedClient(); 
+        const cache = app.services.MemcachedClient(); 
         cache.set('pay-'+id, values, 60000, function(error){
             if(error){
                 console.log(error);

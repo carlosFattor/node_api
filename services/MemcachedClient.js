@@ -1,7 +1,7 @@
-var memcached = require('memcached');
+const memcached = require('memcached');
 
 function createdMemcachedClient(){
-    var _client = new memcached('localhost:11211', {
+    const _client = new memcached('localhost:11211', {
         retries: 10,
         retry: 1000,
         remove: true

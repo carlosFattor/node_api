@@ -1,4 +1,4 @@
-var fs = require('fs');
+const fs = require('fs');
 
 fs.readFile('gits_d8m8.jpg', function(error, buffer){
     console.log('arquivo lido');
